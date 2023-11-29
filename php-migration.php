@@ -37,13 +37,14 @@ function printCategories($category)
 }
 
 
-//printCategories($json);
+printCategories($json);
 
 $servername = "localhost";
 $username = "root";
 $password = "";
 $password = "";
 
+/*
 try {
   $conn = new PDO("mysql:host=$servername;dbname=ocdb", $username, $password);
   // set the PDO error mode to exception
@@ -52,7 +53,7 @@ try {
 } catch(PDOException $e) {
   echo "Connection failed: " . $e->getMessage();
 }
-
+*/
 // output
 // Latitude: 40.6781784, Longitude: -73.9441579
 ?>
