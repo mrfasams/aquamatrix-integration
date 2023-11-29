@@ -1,14 +1,7 @@
 <?php
 
 
-// DB
-define('DB_DRIVER', 'mysqli');
-define('DB_HOSTNAME', 'localhost');
-define('DB_USERNAME', 'root');
-define('DB_PASSWORD', '');
-define('DB_DATABASE', 'ocdb');
-define('DB_PORT', '3307');
-define('DB_PREFIX', 'oc_');
+
 //set map api url
 $url = "https://aquamatrix.bg/aquamatrix_categories_feed.json";
 
@@ -37,23 +30,35 @@ function printCategories($category)
 }
 
 
-printCategories($json);
+//printCategories($json);
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$password = "";
+require_once('C:\Users\nikoleta.todorova\Documents\big-e-migration\htdocs\shop\config.php');
 
-/*
-try {
-  $conn = new PDO("mysql:host=$servername;dbname=ocdb", $username, $password);
-  // set the PDO error mode to exception
-  $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-  echo "Connected successfully";
-} catch(PDOException $e) {
-  echo "Connection failed: " . $e->getMessage();
+// Load the database class
+require_once(DIR_SYSTEM . 'library\db.php');
+
+// Load the OpenCart autoloader
+require_once(DIR_SYSTEM . 'startup.php');
+
+// Load the registry class
+require_once(DIR_SYSTEM . 'engine/registry.php');
+
+// Database initialization
+$db = new DB(DB_DRIVER, DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE, DB_PORT);
+
+
+// Perform database operations
+$query = $db->query("SELECT * FROM " . DB_PREFIX . "product");
+
+// Start HTML output
+echo '<ul>';
+foreach ($query->rows as $product) {
+    // Display each product
+    echo '<li>' . $product['product_id'] . ' : '. $product['image'] .  ' : ' . $product['model'] . '</li>';
+	
 }
-*/
-// output
-// Latitude: 40.6781784, Longitude: -73.9441579
+echo '</ul>';
+
+// Optionally close the database connection
+$db->close();
 ?>
