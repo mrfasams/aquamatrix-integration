@@ -76,6 +76,13 @@ function insertCategory($category,$parantId) {
 				'description'      => $nameCat
 			);
 			
+			$data['category_description'][2] = array(
+				'name'             => $nameCat,
+				'meta_title'       => $nameCat,
+				'meta_description' => $nameCat,
+				'meta_keyword'     => $nameCat,
+				'description'      => $nameCat
+			);
 			$data['category_store'][0] = array(
 				'category_id'    => $idCat,
 				'store_id'       => 0
@@ -232,11 +239,11 @@ function insertProduct($product) {
 		$data['shipping'] = 1;
 		$data['price'] = 0.0000;
 		$data['points'] = 0;
-		$data['weight'] = 0.00000000;
+		$data['weight'] = 1.00000000;
 		$data['weight_class_id'] = 1;
-		$data['length'] = 0.00000000;
-		$data['width'] = 0.00000000;
-		$data['height'] = 0.00000000;
+		$data['length'] = 25.00000000;
+		$data['width'] = 25.00000000;
+		$data['height'] = 25.00000000;
 		$data['length_class_id'] = 1;
 		$data['tax_class_id'] = 0;
 		$data['tag'] = 0;
@@ -259,6 +266,15 @@ function insertProduct($product) {
 				'language_id'      => 1,
 			);
 	
+	$data['product_description'][2] = array(
+				'name'             => $product->name,
+				'meta_title'       => $product->name,
+				'meta_description' => '',
+				'meta_keyword'     => '',
+				'description'      => $product->description,
+				'tag'              => '',
+				'language_id'      => 2,
+			);
 			
 			
 			$data['product_store'][0] = array(
@@ -303,16 +319,12 @@ function insertProduct($product) {
 		$data['price'] = $product->combinations[0]->price;
 		$countSumQuantity = 0;
 		$countQuantity = count($product->combinations);
-		
-			
-				for ($i = 0; $i < $countQuantity; $i++) { 
-					$countSumQuantity = $countSumQuantity + $product->combinations[$i]->quantity;
-					 echo 'id : ' .$product->combinations[$i]->quantity. ' ';
-					 echo '</br>';
-				}
-			$data['quantity'] = $countSumQuantity;
-			
-			
+
+			for ($i = 0; $i < $countQuantity; $i++) { 
+				$countSumQuantity = $countSumQuantity + $product->combinations[$i]->quantity;
+					
+			}
+			$data['quantity'] = $countSumQuantity;	
 		}
 		
 		require_once('C:\Users\nikoleta.todorova\Documents\big-e-migration\htdocs\shop\config.php');
@@ -329,41 +341,41 @@ function insertProduct($product) {
 		// Database initialization
 		$db = new DB(DB_DRIVER, DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE, DB_PORT);
 		
-		$db->query("INSERT INTO " . DB_PREFIX . "product SET  product_id = '" . (int)$product_id . "', model = '" . $db->escape($data['model']) . "',  quantity = '" . (int)$data['quantity'] . "', minimum = '" . (int)$data['minimum'] . "', subtract = '" . (int)$data['subtract'] . "', stock_status_id = '" . (int)$data['stock_status_id'] . "', date_available = NOW(), manufacturer_id = '" . (int)$data['manufacturer_id'] . "', shipping = '" . (int)$data['shipping'] . "', price = '" . (float)$data['price'] . "', points = '" . (int)$data['points'] . "', weight = '" . (float)$data['weight'] . "', weight_class_id = '" . (int)$data['weight_class_id'] . "', length = '" . (float)$data['length'] . "', width = '" . (float)$data['width'] . "', height = '" . (float)$data['height'] . "', length_class_id = '" . (int)$data['length_class_id'] . "', status = '" . (int)$data['status'] . "', tax_class_id = '" . (int)$data['tax_class_id'] . "', sort_order = '" . (int)$data['sort_order'] . "', date_added = NOW(), date_modified = NOW()");
+		//$db->query("INSERT INTO " . DB_PREFIX . "product SET  product_id = '" . (int)$product_id . "', model = '" . $db->escape($data['model']) . "',  quantity = '" . (int)$data['quantity'] . "', minimum = '" . (int)$data['minimum'] . "', subtract = '" . (int)$data['subtract'] . "', stock_status_id = '" . (int)$data['stock_status_id'] . "', date_available = NOW(), manufacturer_id = '" . (int)$data['manufacturer_id'] . "', shipping = '" . (int)$data['shipping'] . "', price = '" . (float)$data['price'] . "', points = '" . (int)$data['points'] . "', weight = '" . (float)$data['weight'] . "', weight_class_id = '" . (int)$data['weight_class_id'] . "', length = '" . (float)$data['length'] . "', width = '" . (float)$data['width'] . "', height = '" . (float)$data['height'] . "', length_class_id = '" . (int)$data['length_class_id'] . "', status = '" . (int)$data['status'] . "', tax_class_id = '" . (int)$data['tax_class_id'] . "', sort_order = '" . (int)$data['sort_order'] . "', date_added = NOW(), date_modified = NOW()");
 		
 		foreach ($data['product_description'] as $language_id => $value) {
-					$db->query("INSERT INTO " . DB_PREFIX . "product_description SET product_id = '" . (int)$product_id . "', language_id = '" . (int)$language_id . "', name = '" . $db->escape($value['name']) . "', description = '" . $db->escape($value['description']) . "', tag = '" . $db->escape($value['tag']) . "', meta_title = '" . $db->escape($value['meta_title']) . "', meta_description = '" . $db->escape($value['meta_description']) . "', meta_keyword = '" . $db->escape($value['meta_keyword']) . "'");
+					//$db->query("INSERT INTO " . DB_PREFIX . "product_description SET product_id = '" . (int)$product_id . "', language_id = '" . (int)$language_id . "', name = '" . $db->escape($value['name']) . "', description = '" . $db->escape($value['description']) . "', tag = '" . $db->escape($value['tag']) . "', meta_title = '" . $db->escape($value['meta_title']) . "', meta_description = '" . $db->escape($value['meta_description']) . "', meta_keyword = '" . $db->escape($value['meta_keyword']) . "'");
 				}
 		
 		if (isset($data['product_store'])) {
 			foreach ($data['product_store'] as $store_id) {
-				$db->query("INSERT INTO " . DB_PREFIX . "product_to_store SET product_id = '" . (int)$product_id . "', store_id = '0'");
+				//$db->query("INSERT INTO " . DB_PREFIX . "product_to_store SET product_id = '" . (int)$product_id . "', store_id = '0'");
 			}
 		}
 		
 		if (isset($data['product_layout'])) {
 			foreach ($data['product_layout'] as $store_id => $layout_id) {
-				$db->query("INSERT INTO " . DB_PREFIX . "product_to_layout SET product_id = '" . (int)$product_id . "', store_id = '" . (int)$store_id . "', layout_id = '" . (int)$layout_id . "'");
+				//$db->query("INSERT INTO " . DB_PREFIX . "product_to_layout SET product_id = '" . (int)$product_id . "', store_id = '" . (int)$store_id . "', layout_id = '" . (int)$layout_id . "'");
 			}
 		}
 		
 		if (isset($data['product_category'])) {
 			
 			for ($i = 0; $i < $countCat; $i++) {
-				$db->query("INSERT INTO " . DB_PREFIX . "product_to_category SET product_id = '" . (int)$data['product_category'][$i]->product_id . "', category_id = '" . (int)$data['product_category'][$i]->category_id . "'");
+				//$db->query("INSERT INTO " . DB_PREFIX . "product_to_category SET product_id = '" . (int)$data['product_category'][$i]->product_id . "', category_id = '" . (int)$data['product_category'][$i]->category_id . "'");
 			}
 		}
 		
 		if (isset($data['product_image'])) {
 			for ($i = 1; $i < $countImages; $i++) {
 				
-				$db->query("INSERT INTO " . DB_PREFIX . "product_image SET product_id = '" . (int)$data['product_image'][$i]->product_id . "', image = '" . $db->escape($data['product_image'][$i]->image) . "', sort_order = '" . (int)$data['product_image'][$i]->sort_order . "'");
+				//$db->query("INSERT INTO " . DB_PREFIX . "product_image SET product_id = '" . (int)$data['product_image'][$i]->product_id . "', image = '" . $db->escape($data['product_image'][$i]->image) . "', sort_order = '" . (int)$data['product_image'][$i]->sort_order . "'");
 			}
 		}
 		
 		if (isset($data['image'])) {
 			if(! ($data['image'] == '')) {
-				$db->query("UPDATE " . DB_PREFIX . "product SET image = '" . $db->escape($data['image']) . "' WHERE product_id = '" . (int)$product->id . "'");
+				//$db->query("UPDATE " . DB_PREFIX . "product SET image = '" . $db->escape($data['image']) . "' WHERE product_id = '" . (int)$product->id . "'");
 		}
 		}
 		//find price and discount/special
@@ -387,9 +399,107 @@ function insertProduct($product) {
 		
 		if (isset($data['product_special'])) {
 			foreach ($data['product_special'] as $product_special) {
-				$db->query("INSERT INTO " . DB_PREFIX . "product_special SET product_id = '" . (int)$product_id . "', customer_group_id = '" . (int)$product_special['customer_group_id'] . "', priority = '" . (int)$product_special['priority'] . "', price = '" . (float)$product_special['price'] . "', date_start = '" . $db->escape($product_special['date_start']) . "', date_end = '" . $db->escape($product_special['date_end']) . "'");
+				//$db->query("INSERT INTO " . DB_PREFIX . "product_special SET product_id = '" . (int)$product_id . "', customer_group_id = '" . (int)$product_special['customer_group_id'] . "', priority = '" . (int)$product_special['priority'] . "', price = '" . (float)$product_special['price'] . "', date_start = '" . $db->escape($product_special['date_start']) . "', date_end = '" . $db->escape($product_special['date_end']) . "'");
 			}
 		}
+		
+		$data['product_option'] = array();
+		if (property_exists($product, 'combinations')) { 
+		
+		$countQuantity = count($product->combinations);
+		
+		$data['product_option'][0]['type'] = 'select';
+		$data['product_option'][0]['product_id'] =  $product->id;
+						
+		
+		$data['product_option'][0]['required'] = 1;
+				
+			for ($i = 0; $i < $countQuantity; $i++) { 
+
+				if (property_exists($product->combinations[$i], 'attributes')) { 
+				$countAttributes = count($product->combinations[$i]->attributes);
+				$attribute['type'] = 'select';
+					for ($j = 0; $j < $countAttributes; $j++) { 
+						
+						$attribute['option_id'] = $product->combinations[$i]->attributes[$j]->id_attribute;
+						$attribute['sort_order'] =0; 
+						$attribute['option_description'][1] = array(
+				             'name' => $product->combinations[$i]->attributes[$j]->attribute_name
+							 
+						);
+						$attribute['option_description'][2] = array(
+				             'name' => $product->combinations[$i]->attributes[$j]->attribute_name
+						);
+						$attribute['option_value'][0] = array(
+						    'option_value_id' => $product->combinations[$i]->attributes[$j]->id_attribute_value
+						);
+						
+						$attribute['option_value'][0]['option_value_description'][1] = array(
+				             'name' => $product->combinations[$i]->attributes[$j]->attribute_value
+							 
+						);
+						
+						$attribute['option_value'][0]['option_value_description'][2] = array(
+				             'name' => $product->combinations[$i]->attributes[$j]->attribute_value
+						);
+						
+						
+						$option_id = addOption($attribute,$db);
+						
+						$data['product_option'][0]['option_id'] = $option_id ;
+						$data['product_option'][0]['product_option_value'][$i] = array(
+						'option_value_id'=>$product->combinations[$i]->attributes[0]->id_attribute_value,
+						    'quantity' => (int)$product->combinations[$i]->quantity,
+							'subtract' => (int)1,
+							'price' => (float)0.0000,
+							'price_prefix' => '-',
+							'weight' => (float)1.00000000,
+							'points_prefix' => '+',
+							'points' => (int)0,
+							'weight_prefix' => '+',
+							
+						);
+						
+					}
+			
+						
+						
+				}
+			}
+		}
+		
+		/*
+		if (isset($data['product_option'])) {
+			foreach ($data['product_option'] as $product_option) {
+				if ($product_option['type'] == 'select' || $product_option['type'] == 'radio' || $product_option['type'] == 'checkbox' || $product_option['type'] == 'image') {
+					if (isset($product_option['product_option_value'])) {
+						$db->query("INSERT INTO " . DB_PREFIX . "product_option SET product_id = '" . (int)$product_id . "', option_id = '" . (int)$product_option['option_id'] . "', required = '" . (int)$product_option['required'] . "'");
+
+						$product_option_id = $db->getLastId();
+
+						foreach ($product_option['product_option_value'] as $product_option_value) {
+							$db->query("INSERT INTO " . DB_PREFIX . "product_option_value SET product_option_id = '" . 
+							(int)$product_option_id . "', product_id = '" . 
+							(int)$product_id . "', option_id = '" .
+							(int)$product_option['option_id'] . "', option_value_id = '" . 
+							(int)$product_option_value['option_value_id'] . "', quantity = '" . 
+							(int)$product_option_value['quantity'] . "', subtract = '" . 
+							(int)$product_option_value['subtract'] . "', price = '" . 
+							(float)$product_option_value['price'] . "', price_prefix = '" . 
+							$db->escape($product_option_value['price_prefix']) . "', points = '" . 
+							(int)$product_option_value['points'] . "', points_prefix = '" . 
+							$db->escape($product_option_value['points_prefix']) . "', weight = '" . 
+							(float)$product_option_value['weight'] . "', weight_prefix = '" .
+							$db->escape($product_option_value['weight_prefix']) . "'");
+						}
+					}
+				} else {
+					$db->query("INSERT INTO " . DB_PREFIX . "product_option SET product_id = '" . (int)$product_id . "', option_id = '" . (int)$product_option['option_id'] . "', value = '" . $db->escape($product_option['value']) . "', required = '" . (int)$product_option['required'] . "'");
+				}
+			}
+		}
+		*/
+		
 		
 }
 
@@ -403,5 +513,41 @@ function insertProduct($product) {
 			 insertProduct($products[$i]);
 		}
 }
+
+ function addOption($data,$db) {
+	 
+	 $data['type'] = 'select';
+	  $qu = $db->query("SELECT * FROM " . DB_PREFIX . "option where option_id = '".$data['option_id'].  "' ");
+	   
+	  if(!$qu->row){
+		$db->query("INSERT INTO " . DB_PREFIX . "option SET option_id ='" . (int)$data['option_id'] . "' ,type = '" . $db->escape($data['type']) . "', sort_order = '" . (int)$data['sort_order'] . "'");
+		} 
+		$option_id = $data['option_id'];
+		$queryDesc = $db->query("SELECT * FROM " . DB_PREFIX . "option_description where option_id = '".$data['option_id'].  "' ");
+		if(!$queryDesc->row) {
+			foreach ($data['option_description'] as $language_id => $value) {
+				$db->query("INSERT INTO " . DB_PREFIX . "option_description SET option_id = '" . (int)$option_id . "', language_id = '" . (int)$language_id . "', name = '" . $db->escape($value['name']) . "'");
+			}
+		}
+		if (isset($data['option_value'])) {
+			foreach ($data['option_value'] as $option_value) {
+					$queryOpionValue = $db->query("SELECT * FROM " . DB_PREFIX . "option_value where option_value_id = '".$option_value['option_value_id'].  "' ");
+					if(!$queryOpionValue->row) {
+					$db->query("INSERT INTO " . DB_PREFIX . "option_value SET option_value_id ='" .(int)$option_value['option_value_id'] . "',option_id = '" . (int)$option_id . "', image = '" . $db->escape(html_entity_decode($option_value['image'], ENT_QUOTES, 'UTF-8')) . "', sort_order = '" . (int)$option_value['sort_order'] . "'");
+					}
+				$option_value_id = $option_value['option_value_id'];
+				foreach ($option_value['option_value_description'] as $language_id => $option_value_description) {
+					$queryValueDescription = $db->query("SELECT * FROM " . DB_PREFIX . "option_value_description where option_value_id ='" . (int)$option_value_id . "' and language_id ='" . (int)$language_id . "' and option_id = '" . (int)$option_id . "'");
+					if(!$queryValueDescription->row) {
+						$db->query("INSERT INTO " . DB_PREFIX . "option_value_description SET option_value_id = '" . (int)$option_value_id . "', language_id = '" . (int)$language_id . "', option_id = '" . (int)$option_id . "', name = '" . $db->escape($option_value_description['name']) . "'");
+					}
+				}
+			}
+		}
+
+		return $option_id;
+	}
+	
+	
 
 ?>
